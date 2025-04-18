@@ -6,6 +6,7 @@ import AddressRecord from "../models/AddressRecord.models";
 
 export const updateUser = asyncHandler(async (req: Request, res: Response) => {
   try {
+    console.log("Request Body:", req.body);
     const {
       firstName,
       middleName,
@@ -23,17 +24,21 @@ export const updateUser = asyncHandler(async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Please Registered Yourself!" });
     }
 
-    if (
-      !firstName ||
-      !lastName ||
-      !gender ||
-      !houseNo ||
-      !country ||
-      !citytownvillage ||
-      !district ||
-      !state
-    ) {
-      return res.status(210).json({ message: "Please complete all the field" });
+    const missingFields = [];
+    if (!firstName) missingFields.push("firstName");
+    if (!lastName) missingFields.push("lastName");
+    if (!gender) missingFields.push("gender");
+    if (!houseNo) missingFields.push("houseNo");
+    if (!country) missingFields.push("country");
+    if (!citytownvillage) missingFields.push("citytownvillage");
+    if (!district) missingFields.push("district");
+    if (!state) missingFields.push("state");
+
+    if (missingFields.length > 0) {
+      return res.status(210).json({ 
+        message: "Please complete all the fields", 
+        missingFields 
+      });
     }
     const userId = new mongoose.Types.ObjectId(user.id);
     const obj = {
