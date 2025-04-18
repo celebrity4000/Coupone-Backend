@@ -5,6 +5,7 @@ import OTPRecord from "../models/OTPRecord.models"; // Import the OTPRecord mode
 
 // Email OTP Post request Handle
 export const sendOTP = async (req: Request, res: Response) => {
+  console.log(req);
   try {
     const user = req.user;
 
